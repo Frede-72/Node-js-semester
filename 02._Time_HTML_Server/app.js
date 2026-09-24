@@ -21,6 +21,11 @@ app.post("/api/date" , (req, res) =>{
     let currentRabbitPairs = BigInt(initialRabbitPairs);
     let rabbitGrowthPerMonth = [];
 
+    if(!initialRabbitPairs || !targetRabbits){
+        res.send( {error: ":("});
+        return;
+    }
+
     if(initialRabbitPairs < 0){
         res.send({ data: "you dont have any rabbits :/"});
         return;

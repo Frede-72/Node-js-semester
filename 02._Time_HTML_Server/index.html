@@ -75,7 +75,7 @@
             })})
         .then((response) => response.json())
         .then((result) => {
-            if(result.data === "Invalid Date"){
+            if(result.data === "Invalid Date" || result.error){
                 return;
             }
             const dateDiv = document.getElementById("date");
