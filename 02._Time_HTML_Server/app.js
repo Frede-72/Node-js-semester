@@ -26,7 +26,7 @@ app.post("/api/date" , (req, res) =>{
         return;
     }
 
-    if(initialRabbitPairs < 0){
+    if(initialRabbitPairs <= 0){
         res.send({ data: "you dont have any rabbits :/"});
         return;
     }
