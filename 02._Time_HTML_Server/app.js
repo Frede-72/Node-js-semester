@@ -31,8 +31,13 @@ app.post("/api/date" , (req, res) =>{
         return;
     }
 
-    if(initialRabbitPairs * 2 >= targetRabbits){
-        res.send({data: `you already have atleast ${targetRabbits} rabbits`})
+    if(initialRabbitPairs * 2 > targetRabbits){
+        res.send({data: `Please do not murder the rabbits`})
+        return;
+    }
+
+    if(initialRabbitPairs * 2 === Number(targetRabbits)){
+        res.send({data: `you currently have exactly ${targetRabbits} rabbits`})
         return;
     }
 
@@ -45,17 +50,14 @@ app.post("/api/date" , (req, res) =>{
         } else if(daysSinceStart >= maturitydays){
             if(daysSinceStart === lifespanDays){
                 currentRabbitPairs -= BigInt(initialRabbitPairs*2);
-                console.log(currentRabbitPairs + " first");
             } else if(daysSinceStart > lifespanDays){
                 currentRabbitPairs -= rabbitGrowthPerMonth[((daysSinceStart-lifespanDays)/30)]/BigInt(2);
-                console.log(currentRabbitPairs + " old");
             }
             currentRabbitPairs += rabbitGrowthPerMonth[((daysSinceStart-maturitydays)/30)]/BigInt(2);
             const newRabbits = currentRabbitPairs * BigInt(litterSize);
             rabbits += newRabbits;
             rabbitGrowthPerMonth.push(newRabbits);
             daysSinceStart+=gestationDays;
-            console.log(currentRabbitPairs);
         }
     }
 
