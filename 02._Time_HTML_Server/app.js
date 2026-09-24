@@ -5,7 +5,7 @@ app.use(express.json());
 const dateFormat = { year: "numeric" , month: "long" , weekday: "long" , day: "numeric" };
 const gestationDays = 30;
 const litterSize = 6;
-const maturitydays = 180;
+const maturityDays = 180;
 const lifespanDays = 2880;
 
 app.get("/" , (req, res) =>{ 
@@ -42,18 +42,18 @@ app.post("/api/date" , (req, res) =>{
     }
 
     while(rabbits < targetRabbits){
-        if(daysSinceStart < maturitydays){
+        if(daysSinceStart < maturityDays){
         const newRabbits = BigInt(currentRabbitPairs * BigInt(litterSize));
         rabbits += newRabbits;
         rabbitGrowthPerMonth.push(newRabbits);
         daysSinceStart+=gestationDays;
-        } else if(daysSinceStart >= maturitydays){
+        } else if(daysSinceStart >= maturityDays){
             if(daysSinceStart === lifespanDays){
                 currentRabbitPairs -= BigInt(initialRabbitPairs*2);
             } else if(daysSinceStart > lifespanDays){
                 currentRabbitPairs -= rabbitGrowthPerMonth[((daysSinceStart-lifespanDays)/30)]/BigInt(2);
             }
-            currentRabbitPairs += rabbitGrowthPerMonth[((daysSinceStart-maturitydays)/30)]/BigInt(2);
+            currentRabbitPairs += rabbitGrowthPerMonth[((daysSinceStart-maturityDays)/30)]/BigInt(2);
             const newRabbits = currentRabbitPairs * BigInt(litterSize);
             rabbits += newRabbits;
             rabbitGrowthPerMonth.push(newRabbits);
