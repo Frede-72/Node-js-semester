@@ -48,7 +48,7 @@ app.post("/api/date" , (req, res) =>{
         rabbitGrowthPerMonth.push(newRabbits);
         daysSinceStart+=gestationDays;
         } else if(daysSinceStart >= maturityDays){
-            if(daysSinceStart === lifespanDays){
+            if(daysSinceStart + Number(maturityDays) === lifespanDays){
                 currentRabbitPairs -= BigInt(initialRabbitPairs*2);
             } else if(daysSinceStart > lifespanDays){
                 currentRabbitPairs -= rabbitGrowthPerMonth[((daysSinceStart-lifespanDays)/30)]/BigInt(2);
