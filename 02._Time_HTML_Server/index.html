@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        div{
+            display: grid;
+            grid-template-columns: auto ;
+            padding: 25px;
+            background-color: #f1f1f1;
+            border: 1px solid black;
+            text-align: center;
+            min-width: 500px;
+            place-self: center;
+        }
+
+        #date , #estimate-text{
+            display: none;
+        }
+
+    </style>
+
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        How many rabbits can i get?
+    </div>
+    <div>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+    </div>
+
+    <div>
+        <label for="rabbitPairs">How many pairs of rabbits do you have:</label>
+        <input type="number" , id="rabbitPairs">
+    </div>
+
+    <div>
+        <label for="targetRabbits">how many rabbits do you want:</label>
+        <input type="number" , id="targetRabbits">
+    </div>
+
+    <div>
+        <button id="getDateButton">Get estimated date</button>
+    </div>
+
+    <div id="estimate-text"></div>
+    <div id="date"></div>
+    <!-- <script>
+        fetch("/api/date")
+        .then((response) => response.json())
+        .then((result) => {
+            const dateH3 = document.getElementById("date");
+            dateH3.textContent = result.data;
+            console.log(result);
+        })
+    </script> -->
+    <script>
+    document.getElementById('startDate').valueAsDate = new Date();
+    </script>
+
+    <script>    
+    document.getElementById("getDateButton").addEventListener("click" , async(event) => {
+        event.preventDefault();
+        fetch("/api/date" , { 
+            method: "POST", 
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ rabbitPairs: `${document.getElementById("rabbitPairs").value}` ,
+                targetRabbits: `${document.getElementById("targetRabbits").value}` ,
+                date: `${document.getElementById("startDate").value}`
+            })})
+        .then((response) => response.json())
+        .then((result) => {
+            if(result.data === "Invalid Date"){
+                return;
+            }
+            const dateDiv = document.getElementById("date");
+            const estimateTextDiv = document.getElementById("estimate-text");
+            estimateTextDiv.textContent = "Estimated date of having atleast " + document.getElementById("targetRabbits").value + " Rabbits";
+            dateDiv.textContent = result.data;
+            estimateTextDiv.setAttribute("style" , "display: grid");
+            dateDiv.setAttribute("style" , "display: grid");
+        })
+    });
+    </script>
+</body>
+</html>
